@@ -68,17 +68,25 @@ public class AddressBookController {
     /**
      * update  record data by token
      * @apiNote accepts the address book data in JSON format and updates the address having same Id from database
-     * @param token - represents addressBook id
+     * @param  - represents addressBook id
      * @param addressBookDTO - represents object of AddressBookDto class
      * @return	updated address information in JSON format
      */
 
 
-    @PutMapping("/update/{token}")
-    public ResponseEntity<String> updateRecordById(@PathVariable String token,@Valid @RequestBody AddressBookDTO addressBookDTO){
-        AddressBookData entity = addressBookService.updateRecordByToken(token,addressBookDTO);
-        ResponseDTO dto = new ResponseDTO("Address Book Record updated successfully",entity);
-        return new ResponseEntity(dto,HttpStatus.ACCEPTED);
+//    @PutMapping("/update/{token}")
+//    public ResponseEntity<String> updateRecordById(@PathVariable String token,@Valid @RequestBody AddressBookDTO addressBookDTO){
+//        AddressBookData entity = addressBookService.updateRecordByToken(token,addressBookDTO);
+//        ResponseDTO dto = new ResponseDTO("Address Book Record updated successfully",entity);
+//        return new ResponseEntity(dto,HttpStatus.ACCEPTED);
+//    }
+
+    //Ability to update address book record to repository
+    @PutMapping("/update/{Id}")
+    public ResponseEntity<String> updateRecordById(@PathVariable Integer Id, @Valid @RequestBody AddressBookDTO addressBookDTO) throws AddressBookException {
+        AddressBookData newAddress = addressBookService.updateRecordById(Id, addressBookDTO);
+        ResponseDTO responseDTO = new ResponseDTO("Address Book Record updated successfully", newAddress);
+        return new ResponseEntity(responseDTO, HttpStatus.OK);
     }
 
     /**

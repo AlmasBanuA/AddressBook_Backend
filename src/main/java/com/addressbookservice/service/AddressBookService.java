@@ -54,28 +54,37 @@ public class AddressBookService implements IAddressBookService {
 //    }
 
 
-    /**
-     * accepts the contact data in the form of AddressBookDTO and
-     * updates the contact details having same Id from database
-     * @param token - represents contact details for same id
-     * @param addressBookDTO- represents object of AddressBookDTO class
-     * @return	updated Address Book information in JSON format
-     *Created service method which serves controller api to update record by token
-     */
-    public AddressBookData updateRecordByToken(String token, AddressBookDTO addressBookDTO) {
-        Integer id= tokenUtility.decodeToken(token);
-        Optional<AddressBookData> addressBook = addressBookRepository.findById(id);
-        if(addressBook.isEmpty()) {
-            throw new AddressBookException("Address Book Details for id not found");
-        }
-        AddressBookData newBook = new AddressBookData(id,addressBookDTO);
-        addressBookRepository.save(newBook);
-        sender.sendEmail(newBook.getEmail(), "Test Email", "Updated SuccessFully, hii: "
-                +newBook.getFirstName()+"Please Click here to get data of updated id-> "
-                +"http://localhost:8080/addressBook/retrieve/"+token);
-        return newBook;
-    }
+//    /**
+//     * accepts the contact data in the form of AddressBookDTO and
+//     * updates the contact details having same Id from database
+//     * @param token - represents contact details for same id
+//     * @param addressBookDTO- represents object of AddressBookDTO class
+//     * @return	updated Address Book information in JSON format
+//     *Created service method which serves controller api to update record by token
+//     */
+//    public AddressBookData updateRecordByToken(String token, AddressBookDTO addressBookDTO) {
+//        Integer id= tokenUtility.decodeToken(token);
+//        Optional<AddressBookData> addressBook = addressBookRepository.findById(id);
+//        if(addressBook.isEmpty()) {
+//            throw new AddressBookException("Address Book Details for id not found");
+//        }
+//        AddressBookData newBook = new AddressBookData(id,addressBookDTO);
+//        addressBookRepository.save(newBook);
+//        sender.sendEmail(newBook.getEmail(), "Test Email", "Updated SuccessFully, hii: "
+//                +newBook.getFirstName()+"Please Click here to get data of updated id-> "
+//                +"http://localhost:8080/addressBook/retrieve/"+token);
+//        return newBook;
+//    }
 
+    public AddressBookData updateRecordById(Integer id, AddressBookDTO addressBookDTO) {
+        List<AddressBookData> addressList = addressBookRepository.findAll();
+        AddressBookData newAddress = addressList.stream().filter(addressData -> addressData.getId() == id)
+                .findFirst()
+                .orElseThrow(() -> new AddressBookException("Specific address book details not found"));
+        AddressBookData newAddressBook = new AddressBookData(id, addressBookDTO);
+        addressBookRepository.save(newAddressBook);
+        return newAddressBook;
+    }
 
     /**accepts the contact Id and deletes the data of that contact from DB
      * @param Id - represents contact id

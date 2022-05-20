@@ -28,7 +28,7 @@ public interface IAddressBookService {
 
 
     //update records by providing token generated for particular id
-    AddressBookData updateRecordByToken(String token, AddressBookDTO addressBookDTO);
+    //AddressBookData updateRecordByToken(String token, AddressBookDTO addressBookDTO);
 
 
 
@@ -38,6 +38,8 @@ public interface IAddressBookService {
     List<AddressBookData> getAddressBookDataById();
 
     void deleteById(Integer id);
+
+    AddressBookData updateRecordById(Integer id, AddressBookDTO addressBookDTO);
 
     // AddressBookData getRecordByToken(String token);
 }
