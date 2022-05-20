@@ -52,19 +52,6 @@ public class AddressBookController {
     }
 
 
-
-    /**
-     * get data for particular id
-     * Ability to get a record by token
-     */
-//    @GetMapping("/get/{token}")
-//    public ResponseEntity<String> getRecordById(@PathVariable String token) throws AddressBookException {
-//        AddressBookData newAddressBook = addressBookService.getRecordByToken(token);
-//        ResponseDTO dto = new ResponseDTO("Address Book Record for particular id retrieved successfully",newAddressBook);
-//        return new ResponseEntity(dto,HttpStatus.OK);
-//    }
-
-
     /**
      * update  record data by token
      * @apiNote accepts the address book data in JSON format and updates the address having same Id from database
@@ -73,13 +60,6 @@ public class AddressBookController {
      * @return	updated address information in JSON format
      */
 
-
-//    @PutMapping("/update/{token}")
-//    public ResponseEntity<String> updateRecordById(@PathVariable String token,@Valid @RequestBody AddressBookDTO addressBookDTO){
-//        AddressBookData entity = addressBookService.updateRecordByToken(token,addressBookDTO);
-//        ResponseDTO dto = new ResponseDTO("Address Book Record updated successfully",entity);
-//        return new ResponseEntity(dto,HttpStatus.ACCEPTED);
-//    }
 
     //Ability to update address book record to repository
     @PutMapping("/update/{Id}")
@@ -108,6 +88,12 @@ public class AddressBookController {
         addressBookService.deleteById(id);
         return "Address of id: " + id + " has been deleted";
     }
+
+    @GetMapping("/findById/{id}")
+    public ResponseEntity<ResponseDTO> setBookbyId(@PathVariable int id) {
+        AddressBookData addressBookModel = addressBookService.findBookById(id);
+        ResponseDTO dto = new ResponseDTO("the data is sucussfully retrive ",addressBookModel);
+        return new ResponseEntity<ResponseDTO>(dto,HttpStatus.OK);
+    }
+
 }
-
-

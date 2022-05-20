@@ -1,5 +1,4 @@
 package com.addressbookservice.service;
-
 import com.addressbookservice.dto.AddressBookDTO;
 import com.addressbookservice.exception.AddressBookException;
 import com.addressbookservice.model.AddressBookData;
@@ -48,33 +47,6 @@ public class AddressBookService implements IAddressBookService {
         return null;
     }
 
-//    @Override
-//    AddressBookData getRecordByToken(String token) {
-//        return null;
-//    }
-
-
-//    /**
-//     * accepts the contact data in the form of AddressBookDTO and
-//     * updates the contact details having same Id from database
-//     * @param token - represents contact details for same id
-//     * @param addressBookDTO- represents object of AddressBookDTO class
-//     * @return	updated Address Book information in JSON format
-//     *Created service method which serves controller api to update record by token
-//     */
-//    public AddressBookData updateRecordByToken(String token, AddressBookDTO addressBookDTO) {
-//        Integer id= tokenUtility.decodeToken(token);
-//        Optional<AddressBookData> addressBook = addressBookRepository.findById(id);
-//        if(addressBook.isEmpty()) {
-//            throw new AddressBookException("Address Book Details for id not found");
-//        }
-//        AddressBookData newBook = new AddressBookData(id,addressBookDTO);
-//        addressBookRepository.save(newBook);
-//        sender.sendEmail(newBook.getEmail(), "Test Email", "Updated SuccessFully, hii: "
-//                +newBook.getFirstName()+"Please Click here to get data of updated id-> "
-//                +"http://localhost:8080/addressBook/retrieve/"+token);
-//        return newBook;
-//    }
 
     public AddressBookData updateRecordById(Integer id, AddressBookDTO addressBookDTO) {
         List<AddressBookData> addressList = addressBookRepository.findAll();
@@ -93,8 +65,8 @@ public class AddressBookService implements IAddressBookService {
 
     public void deleteRecordByToken(Integer Id) {
 
-       AddressBookData deletecontact;
-       addressBookRepository.deleteById(Id);
+        AddressBookData deletecontact;
+        addressBookRepository.deleteById(Id);
 
     }
     /**
@@ -108,45 +80,23 @@ public class AddressBookService implements IAddressBookService {
     {
         List<AddressBookData> isContactPresent=addressBookRepository.findAll();
 
-            return isContactPresent;
-        }
+        return isContactPresent;
+    }
 
-
-
-//    /**
-//     *
-//     * @param token is generated for all Address Book Data and it's unique for all contact.
-//     * @return AddressBookData for particular token id
-//     * @token :-represent id
-//     */
-//    public AddressBookData getRecordByToken(String token){
-//        Integer id = tokenUtility.decodeToken(token);
-//        Optional<AddressBookData> newAddressBook = addressBookRepository.findById(id);
-//        if(newAddressBook.isEmpty()) {
-//            log.warn("Unable to find address book details for given id: "+id);
-//            throw new AddressBookException("Address Book Details not found for that particular id");
-//        }
-//        else {
-//            sender.sendEmail("abhishekrajawat101@gmail.com", "Test Email", "Deleted SuccessFully, hii: "
-//                    +newAddressBook.get().getEmail()+"Please Click here to get data-> "
-//                    +"http://localhost:8080/addressBook/retrieve/"+token);
-//
-//            return newAddressBook.get();
-//        }
 
     //Created method which serves controllers api call to delete record by id
     public void deleteById(Integer id){
         addressBookRepository.deleteById(id);
     }
+    public AddressBookData findBookById(int id) {
+        Optional<AddressBookData> addressBookOptionalObj = addressBookRepository.findById(id);
+        if (addressBookOptionalObj.isPresent()) {
+            return addressBookOptionalObj.get();
 
+        }
+        throw new AddressBookException("Person details not persent !! sorry please enter a valid ID");
     }
-
-
-
-
-
-
-
+}
 
 
 
